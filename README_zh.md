@@ -60,7 +60,7 @@
 
 在您的 `gitbook` 的 `book.json` 文件中,将 `simple-mind-map` 添加到 `plugins` 列表中.
 
-这是最简单的示例：
+这是最简单的示例: 
 
 ```json
 {
@@ -804,7 +804,7 @@ gitbook serve
 
 欢迎提供文稿，问题和功能请求！ 随时检查[问题页面](https://github.com/snowdreams1006/gitbook-plugin-simple-mind-map/issues) 。
 
-## 表示支持
+## 支持
 
 如果这个项目对您有帮助，请给个[星星](https://github.com/snowdreams1006/gitbook-plugin-simple-mind-map) ！
 
