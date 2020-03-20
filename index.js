@@ -9,7 +9,7 @@
  *  - Create Time: 2020-03-15
  */
 
-var regex = /^\s*```(.*[\r\n]+)?((?:.*[\r\n]+)+?)??\s*```$/igm;
+var regex = /^\s*```(.*[\r\n]+)?((?:.*[\r\n]+)+?)??\s*```$/im;
 var escapeHTML = function escapeHTML(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 };
@@ -34,19 +34,13 @@ module.exports = {
                     }
                 }
                 var rawBody = block.body;
-                if(!rawBody){
-                    return block;
-                }
-                var result,type,text,textArr = [];
-                while ((result = regex.exec(rawBody)) !== null) {
+                var result,type,text;
+                if ((result = regex.exec(rawBody)) !== null) {
                     type = result[1];
                     if(type){
                         type = type.trim();
                     }
-                    text = result[2];
-                    if(text){
-                        textArr.push(escapeHTML(JSON.stringify(text)));
-                    }
+                    text = escapeHTML(JSON.stringify(result[2]));
                 }
                 var pluginType = pluginConfig.type;
                 var blockType = blockConfig.kwargs.type;
@@ -57,23 +51,8 @@ module.exports = {
                         type = pluginType;
                     }
                 }
-                if(textArr && textArr.length > 0){
-                    for (var i = 0; i < textArr.length; i++) {
-                        (function(i){
-                            var text = textArr[i];
-                            block.body += '<svg class="simple-mind-map" style="'+(customStyle)+'" data-lang-type="'+(type)+'" data-plugin-config="'+(escapeHTML(JSON.stringify(pluginConfig)))+'" data-block-config="'+(escapeHTML(JSON.stringify(blockConfig)))+'" data-svg-text="'+(text)+'"></svg>\n';
-                        })(i)
-                    }
-                    return block;
-                }
-                var markdownCode = block.body;
-                return new Promise(resolve => {
-                    resolve(this.book.renderBlock('markdown', markdownCode) .then(function(html) {
-                        return html;
-                    }));
-                }).then(res => {
-                    return res;
-                });
+                block.body = '<svg class="simple-mind-map" style="'+(customStyle)+'" data-lang-type="'+(type)+'" data-plugin-config="'+(escapeHTML(JSON.stringify(pluginConfig)))+'" data-block-config="'+(escapeHTML(JSON.stringify(blockConfig)))+'" data-svg-text="'+(text)+'"></svg>';
+                return block;
             }
         }
     }
