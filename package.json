@@ -40,7 +40,7 @@
                 "type": "string",
                 "title": "colorful or default",
                 "required": false,
-                "default": "colorful"
+                "default": "default"
             },
             "linkShape": {
                 "type": "string",
